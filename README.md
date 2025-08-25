@@ -1,1 +1,89 @@
 # feedback-murid
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Murid</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label { display: block; margin-top: 10px; }
+    select, input { padding: 5px; margin-top: 5px; }
+    #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; background: #f2f2f2; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Program Feedback Murid</h2>
+
+  <!-- Pilih Nama Siswa -->
+  <label for="nama">Pilih Nama Siswa:</label>
+  <select id="nama">
+    <option value="">-- pilih siswa --</option>
+    <option value="Inara">Inara</option>
+    <option value="Kenar">Kenar</option>
+    <option value="Davi">Davi</option>
+  </select>
+
+  <!-- Pilih Tanggal -->
+  <label for="tanggal">Pilih Tanggal Kelas:</label>
+  <input type="date" id="tanggal">
+
+  <button onclick="tampilkanFeedback()">Lihat Feedback</button>
+
+  <div id="feedback"></div>
+
+  <script>
+    // Database feedback sederhana (bisa dikembangkan ambil dari Google Sheet/API)
+    const feedbackData = {
+      "Inara": {
+        "2025-08-25": `
+          <div>
+            <h3>📝 Feedback Pembelajaran</h3>
+            <p>🐍 <strong>Belajar Nested Conditional (Berkondisi Bersarang) di Python</strong></p>
+            <p>Hari ini Jennifer sudah mempelajari perintah berkondisi bersarang (nested conditional) di Python. Materi ini penting karena memungkinkan program membuat keputusan yang lebih kompleks dengan kondisi di dalam kondisi lain.</p>
+
+            <h4>🎯 Kekuatan Pembelajaran</h4>
+            <p>Jennifer mampu memahami cara kerja <code>if</code> di dalam <code>if</code>, serta kapan penggunaannya lebih efektif dibanding kondisi tunggal.</p>
+
+            <h4>⚠️ Catatan Perbaikan</h4>
+            <p>Perlu lebih rapi pada indentasi Python, dan memahami kapan memakai kondisi bersarang vs operator logika (AND/OR).</p>
+
+            <h4>💡 Saran Pengembangan</h4>
+            <ul>
+              <li>Program menentukan kategori nilai ujian (A, B, C, D) dengan kondisi remedial.</li>
+              <li>Simulasi pintu masuk: jika punya kartu anggota → cek status aktif → jika aktif boleh masuk, jika tidak ditolak.</li>
+            </ul>
+
+            <p>⭐ <strong>Skor: 4/5</strong> — sudah memahami dasar nested conditional dengan baik; lanjutkan latihan agar makin lancar.</p>
+          </div>
+        `,
+        "2025-08-23": "Inara belajar membuat desain balapan dengan scripting tombol mobil."
+      },
+      "Kenar": {
+        "2025-08-25": "Kenar berhasil membuat NPC yang bisa bergerak ke beberapa titik.",
+        "2025-08-23": "Kenar membuat quest baru dalam Roblox."
+      },
+      "Davi": {
+        "2025-08-25": "Davi membuat Arcade Simulator dengan pesawat yang bisa digerakkan.",
+        "2025-08-23": "Davi memperbaiki tata letak game dan scripting."
+      }
+    };
+
+    function tampilkanFeedback() {
+      const nama = document.getElementById("nama").value;
+      const tanggal = document.getElementById("tanggal").value;
+      const feedbackDiv = document.getElementById("feedback");
+
+      if (nama && tanggal) {
+        const feedback = feedbackData[nama]?.[tanggal];
+        if (feedback) {
+          feedbackDiv.innerHTML = `📌 Feedback untuk <b>${nama}</b> (${tanggal}):<br>${feedback}`;
+        } else {
+          feedbackDiv.innerHTML = `❌ Tidak ada feedback untuk ${nama} pada tanggal ${tanggal}.`;
+        }
+      } else {
+        feedbackDiv.innerHTML = "⚠️ Silakan pilih nama siswa dan tanggal kelas.";
+      }
+    }
+  </script>
+</body>
+</html>
