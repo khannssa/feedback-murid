@@ -17,6 +17,15 @@
     }
     th { background: #f4f4f4; }
     #feedback { margin-top: 20px; }
+    .gambar-proyek {
+      text-align: center; 
+      margin-top: 15px;
+    }
+    .gambar-proyek img {
+      max-width: 400px; 
+      border-radius: 8px; 
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
@@ -45,21 +54,10 @@
       "Inara": {
         "2025-08-25": {
           materi: "Belajar Nested Conditional (Berkondisi Bersarang) di Python",
-          catatan: "Jennifer sudah memahami nested conditional, hanya perlu perbaikan indentasi.",
+          catatan: "Inara sudah memahami nested conditional, hanya perlu perbaikan indentasi.",
           skor: "4/5",
-          youtube: "https://www.youtube.com/watch?v=rfscVS0vtbw"
-        },
-        "2025-08-23": {
-          materi: "Membuat desain balapan dengan scripting tombol mobil",
-          catatan: "Inara sudah bisa membuat tombol muncul mobil dengan scripting.",
-          skor: "3.5/5",
-          youtube: "https://www.youtube.com/watch?v=apACNr7DC_s"
-        }
-        "2025-09-28": {
-          materi: "Membuat desain balapan dengan scripting tombol mobil",
-          catatan: "Inara sudah bisa membuat tombol muncul mobil dengan scripting.",
-          skor: "3.5/5",
-          youtube: "https://www.youtube.com/watch?v=apACNr7DC_s"
+          youtube: "https://www.youtube.com/watch?v=rfscVS0vtbw",
+          gambar: "Untitled image.png" // tampilkan gambar meja
         }
       },
       "Kenar": {
@@ -67,7 +65,8 @@
           materi: "Membuat NPC bergerak ke beberapa titik",
           catatan: "Kenar berhasil scripting NPC dengan jalur berbeda.",
           skor: "4/5",
-          youtube: "https://www.youtube.com/watch?v=j9_2J1k46s0"
+          youtube: "https://www.youtube.com/watch?v=j9_2J1k46s0",
+          gambar: "Untitled image.png" // tampilkan gambar meja
         }
       },
       "Davi": {
@@ -75,7 +74,8 @@
           materi: "Arcade Simulator dengan pesawat bergerak",
           catatan: "Pesawat bisa bergerak, perlu perbaikan kontrol.",
           skor: "3.5/5",
-          youtube: "https://www.youtube.com/watch?v=ZnuwB35GYMY"
+          youtube: "https://www.youtube.com/watch?v=ZnuwB35GYMY",
+          gambar: "Untitled image.png" // tampilkan gambar meja
         }
       }
     };
@@ -110,6 +110,10 @@
               <td><a href="${feedback.youtube}" target="_blank">📺 Lihat di YouTube</a></td>
             </tr>
           </table>
+          <div class="gambar-proyek">
+            <h4>📷 Gambar Proyek</h4>
+            <img src="${feedback.gambar}" alt="Gambar Proyek ${nama}">
+          </div>
         `;
       } else {
         feedbackDiv.innerHTML = `❌ Tidak ada feedback untuk ${nama} pada tanggal ${tanggal}.`;
@@ -118,4 +122,3 @@
   </script>
 </body>
 </html>
-
