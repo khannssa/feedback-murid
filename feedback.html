@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -6,8 +5,18 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     label { display: block; margin-top: 10px; }
-    select, input { padding: 5px; margin-top: 5px; }
-    #feedback { margin-top: 20px; padding: 15px; border-radius: 8px; background: #f2f2f2; font-weight: bold; }
+    select, input, button { padding: 5px; margin-top: 5px; }
+    table {
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc; 
+      padding: 10px;
+    }
+    th { background: #f4f4f4; }
+    #feedback { margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -31,39 +40,37 @@
   <div id="feedback"></div>
 
   <script>
-    // Database feedback sederhana (bisa dikembangkan ambil dari Google Sheet/API)
+    // Database feedback sederhana
     const feedbackData = {
       "Inara": {
-        "2025-08-25": `
-          <div>
-            <h3>📝 Feedback Pembelajaran</h3>
-            <p>🐍 <strong>Belajar Nested Conditional (Berkondisi Bersarang) di Python</strong></p>
-            <p>Hari ini Jennifer sudah mempelajari perintah berkondisi bersarang (nested conditional) di Python. Materi ini penting karena memungkinkan program membuat keputusan yang lebih kompleks dengan kondisi di dalam kondisi lain.</p>
-
-            <h4>🎯 Kekuatan Pembelajaran</h4>
-            <p>Jennifer mampu memahami cara kerja <code>if</code> di dalam <code>if</code>, serta kapan penggunaannya lebih efektif dibanding kondisi tunggal.</p>
-
-            <h4>⚠️ Catatan Perbaikan</h4>
-            <p>Perlu lebih rapi pada indentasi Python, dan memahami kapan memakai kondisi bersarang vs operator logika (AND/OR).</p>
-
-            <h4>💡 Saran Pengembangan</h4>
-            <ul>
-              <li>Program menentukan kategori nilai ujian (A, B, C, D) dengan kondisi remedial.</li>
-              <li>Simulasi pintu masuk: jika punya kartu anggota → cek status aktif → jika aktif boleh masuk, jika tidak ditolak.</li>
-            </ul>
-
-            <p>⭐ <strong>Skor: 4/5</strong> — sudah memahami dasar nested conditional dengan baik; lanjutkan latihan agar makin lancar.</p>
-          </div>
-        `,
-        "2025-08-23": "Inara belajar membuat desain balapan dengan scripting tombol mobil."
+        "2025-08-25": {
+          materi: "Belajar Nested Conditional (Berkondisi Bersarang) di Python",
+          catatan: "Jennifer sudah memahami nested conditional, hanya perlu perbaikan indentasi.",
+          skor: "4/5",
+          youtube: "https://www.youtube.com/watch?v=rfscVS0vtbw"
+        },
+        "2025-08-23": {
+          materi: "Membuat desain balapan dengan scripting tombol mobil",
+          catatan: "Inara sudah bisa membuat tombol muncul mobil dengan scripting.",
+          skor: "3.5/5",
+          youtube: "https://www.youtube.com/watch?v=apACNr7DC_s"
+        }
       },
       "Kenar": {
-        "2025-08-25": "Kenar berhasil membuat NPC yang bisa bergerak ke beberapa titik.",
-        "2025-08-23": "Kenar membuat quest baru dalam Roblox."
+        "2025-08-25": {
+          materi: "Membuat NPC bergerak ke beberapa titik",
+          catatan: "Kenar berhasil scripting NPC dengan jalur berbeda.",
+          skor: "4/5",
+          youtube: "https://www.youtube.com/watch?v=j9_2J1k46s0"
+        }
       },
       "Davi": {
-        "2025-08-25": "Davi membuat Arcade Simulator dengan pesawat yang bisa digerakkan.",
-        "2025-08-23": "Davi memperbaiki tata letak game dan scripting."
+        "2025-08-25": {
+          materi: "Arcade Simulator dengan pesawat bergerak",
+          catatan: "Pesawat bisa bergerak, perlu perbaikan kontrol.",
+          skor: "3.5/5",
+          youtube: "https://www.youtube.com/watch?v=ZnuwB35GYMY"
+        }
       }
     };
 
@@ -72,15 +79,34 @@
       const tanggal = document.getElementById("tanggal").value;
       const feedbackDiv = document.getElementById("feedback");
 
-      if (nama && tanggal) {
-        const feedback = feedbackData[nama]?.[tanggal];
-        if (feedback) {
-          feedbackDiv.innerHTML = `📌 Feedback untuk <b>${nama}</b> (${tanggal}):<br>${feedback}`;
-        } else {
-          feedbackDiv.innerHTML = `❌ Tidak ada feedback untuk ${nama} pada tanggal ${tanggal}.`;
-        }
-      } else {
+      if (!nama || !tanggal) {
         feedbackDiv.innerHTML = "⚠️ Silakan pilih nama siswa dan tanggal kelas.";
+        return;
+      }
+
+      // Cegah akses tanggal ke depan
+      const today = new Date().toISOString().split("T")[0];
+      if (tanggal > today) {
+        feedbackDiv.innerHTML = "⛔ Feedback untuk tanggal kedepan belum tersedia.";
+        return;
+      }
+
+      const feedback = feedbackData[nama]?.[tanggal];
+      if (feedback) {
+        feedbackDiv.innerHTML = `
+          <table>
+            <tr><th>Nama Siswa</th><td>${nama}</td></tr>
+            <tr><th>Tanggal</th><td>${tanggal}</td></tr>
+            <tr><th>Materi</th><td>${feedback.materi}</td></tr>
+            <tr><th>Catatan</th><td>${feedback.catatan}</td></tr>
+            <tr><th>Skor</th><td>${feedback.skor}</td></tr>
+            <tr><th>Video Pembelajaran</th>
+              <td><a href="${feedback.youtube}" target="_blank">📺 Lihat di YouTube</a></td>
+            </tr>
+          </table>
+        `;
+      } else {
+        feedbackDiv.innerHTML = `❌ Tidak ada feedback untuk ${nama} pada tanggal ${tanggal}.`;
       }
     }
   </script>
